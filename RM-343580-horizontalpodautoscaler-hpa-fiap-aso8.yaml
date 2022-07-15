@@ -1,0 +1,82 @@
+﻿kind: HorizontalPodAutoscaler
+apiVersion: autoscaling/v2beta2
+metadata:
+  name: hpa-fiap-aso8
+  namespace: rm-343580-c
+  selfLink: >-
+    /apis/autoscaling/v2beta2/namespaces/rm-343580-c/horizontalpodautoscalers/hpa-fiap-aso8
+  uid: 8af6c92d-90af-4418-98bd-366fc2e0a18f
+  resourceVersion: '97375771'
+  creationTimestamp: '2022-07-13T20:02:20Z'
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: autoscaling/v2beta2
+      time: '2022-07-13T20:02:20Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:maxReplicas': {}
+          'f:metrics': {}
+          'f:minReplicas': {}
+          'f:scaleTargetRef':
+            'f:apiVersion': {}
+            'f:kind': {}
+            'f:name': {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: autoscaling/v1
+      time: '2022-07-13T20:02:35Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:autoscaling.alpha.kubernetes.io/conditions': {}
+            'f:autoscaling.alpha.kubernetes.io/current-metrics': {}
+        'f:status':
+          'f:currentCPUUtilizationPercentage': {}
+          'f:currentReplicas': {}
+          'f:desiredReplicas': {}
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: blog-django-py-git
+    apiVersion: apps/v1
+  minReplicas: 1
+  maxReplicas: 3
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+status:
+  currentReplicas: 1
+  desiredReplicas: 1
+  currentMetrics:
+    - type: Resource
+      resource:
+        name: cpu
+        current:
+          averageValue: '0'
+          averageUtilization: 0
+  conditions:
+    - type: AbleToScale
+      status: 'True'
+      lastTransitionTime: '2022-07-13T20:02:35Z'
+      reason: ReadyForNewScale
+      message: recommended size matches current size
+    - type: ScalingActive
+      status: 'True'
+      lastTransitionTime: '2022-07-14T06:10:08Z'
+      reason: ValidMetricFound
+      message: >-
+        the HPA was able to successfully calculate a replica count from cpu
+        resource utilization (percentage of request)
+    - type: ScalingLimited
+      status: 'True'
+      lastTransitionTime: '2022-07-13T20:07:35Z'
+      reason: TooFewReplicas
+      message: the desired replica count is less than the minimum replica count
